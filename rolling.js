@@ -2,19 +2,6 @@ var Transform = require('stream').Transform
 
   , BASE = 65536
 
-  , adler32 = function(buffer) {
-      var a = 1
-        , b = 0
-        , i = 0
-        , length = buffer.length
-
-      for(; i < length; ++i) {
-        a = (a + buffer[i]) % 65221
-        b = (b + (length - i) * buffer[i] + 1) % 65221
-      }
-      return b * BASE + a
-    }
-
   , rolling = function(length) {
       var stream = new Transform({objectMode: true})
         , data = []
