@@ -1,7 +1,7 @@
 {
   "name": "rolling-checksum",
   "author": "David Björklund <david.bjorklund@gmail.com> (http://davidbjorklund.se)",
-  "description": "Caclulate checksum rolling",
+  "description": "Caclulate a checksum (adler-32) rolling",
   "version": "0.0.0",
   "repository": {
     "url": "git://github.com/kesla/rolling-checksum.git"
