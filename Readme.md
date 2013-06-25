@@ -1,8 +1,6 @@
 # rolling-checksum[![build status](https://secure.travis-ci.org/kesla/rolling-checksum.png)](http://travis-ci.org/kesla/rolling-checksum)
 
-Caclulate a checksum (adler-32) rolling.
-
-rolling-checksum is a module that returns a [Transform](http://nodejs.org/docs/latest/api/stream.html#stream_class_stream_transform)-stream with a set checksum length.
+Caclulate a checksum (adler-32) rolling
 
 ## Installation
 
@@ -13,22 +11,23 @@ npm install rolling-checksum
 ## Example
 
 ```javascript
-var rolling = require('./')(4)
+var rolling = require('./')
+  , stream = rolling(4, 2) // calculate rolling checksum on data of chunks with length 4, on every second step
   , i = 0
   , input = 'Hell, Hello, world!'
   , read = function() {
-      var checksum = rolling.read()
+      var checksum = stream.read()
       if (!checksum)
-        rolling.once('readable', read)
+        stream.once('readable', read)
       else {
         console.log(input.slice(i, i + 4), checksum)
-        i++
+        i = i + 2
         read()
       }
     }
 
-rolling.write(input)
-rolling.end()
+stream.write(input)
+stream.end()
 
 read()
 

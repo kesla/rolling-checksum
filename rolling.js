@@ -3,12 +3,16 @@ var Transform = require('stream').Transform
   , BASE = 65536
   , NMAX = 65221
 
-  , rolling = function(length) {
+  , rolling = function(length, interval) {
       var stream = new Transform({objectMode: true})
         , data = []
         , a = 1
         , b = 0
         , collecting = true
+        , step = 0
+
+      if (interval === undefined)
+        interval = 1
 
       stream._transform = function(chunk, encoding, callback) {
         var i
@@ -31,11 +35,17 @@ var Transform = require('stream').Transform
         }
 
         while (data.length > length) {
+          step++
+
+          console.log(step, interval, step % interval, data.length)
+
           tmp2 = data[length]
           tmp1 = data.shift()
           a = (a - tmp1 + tmp2 + BASE) % BASE
           b = (b - length * tmp1 + a - 1)
-          this.push(b * BASE + a)
+          if (step % interval === 0) {
+            this.push(b * BASE + a)
+          }
         }
 
         callback(null)
