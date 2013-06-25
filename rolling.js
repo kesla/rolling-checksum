@@ -37,8 +37,6 @@ var Transform = require('stream').Transform
         while (data.length > length) {
           step++
 
-          console.log(step, interval, step % interval, data.length)
-
           tmp2 = data[length]
           tmp1 = data.shift()
           a = (a - tmp1 + tmp2 + BASE) % BASE
