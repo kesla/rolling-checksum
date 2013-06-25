@@ -1,6 +1,7 @@
 var Transform = require('stream').Transform
 
   , BASE = 65536
+  , NMAX = 65221
 
   , rolling = function(length) {
       var stream = new Transform({objectMode: true})
@@ -21,8 +22,8 @@ var Transform = require('stream').Transform
 
         if (collecting && data.length >= length) {
           for(i = 0; i < length; ++i) {
-            a = (a + data[i]) % 65221
-            b = (b + (length - i) * data[i] + 1) % 65221
+            a = (a + data[i]) % NMAX
+            b = (b + (length - i) * data[i] + 1) % NMAX
           }
           this.push(b * BASE + a)
 
