@@ -2,12 +2,14 @@ var test = require('tap').test
 
 test('rolling checksum', function(t) {
   var stream = require('../rolling')(4)
-    , checksums = [0x041701A6, 0x042301AD]
+    , expected = [0x041701A6, 0x042301AD]
+    , checksums = []
 
   stream.on('data', function(checksum) {
-    t.equal(checksum, checksums.shift())
+    checksums.push(checksum)
   })
   stream.once('end', function() {
+    t.deepEqual(checksums, expected)
     t.end()
   })
 
