@@ -35,17 +35,21 @@ var Transform = require('stream').Transform
           collecting = false
         }
 
-        while (data.length > length) {
+        for(i = 0; i < data.length - length; ++i) {
           step++
 
-          tmp2 = data[length]
-          tmp1 = data.shift()
+          tmp1 = data[i]
+          tmp2 = data[i + length]
+
           a = (a - tmp1 + tmp2 + BASE) % BASE
           b = (b - length * tmp1 + a - 1)
+
           if (step % interval === 0) {
             this.push(b * BASE + a)
           }
         }
+
+        data = data.slice(-length)
 
         callback(null)
       }
