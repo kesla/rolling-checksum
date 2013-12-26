@@ -17,7 +17,8 @@ var Transform = require('stream').Transform
       stream._transform = function(chunk, encoding, callback) {
         var i
           , tmp1, tmp2
-        if (!Buffer.isBuffer(chunk))
+
+        if (encoding !== 'buffer')
           chunk = new Buffer(chunk, encoding)
 
         for(i = 0; i < chunk.length; ++i) {
